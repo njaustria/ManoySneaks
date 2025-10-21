@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Store Locator - Sneaker Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            background-color: #ffffff;
+        }
+
+        .page-header h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .page-header p {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .search-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        .search-button {
+            background-color: #000;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .search-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .store-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .store-card:hover {
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .store-card.active-store {
+            border: 2px solid #000;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .store-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 1rem;
+        }
+
+        .store-address {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .store-hours {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .store-hours h4 {
+            color: #000;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .hours-list {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .store-contact {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #666;
+        }
+
+        .store-features {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            background-color: #000;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .store-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .action-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .action-button.secondary {
+            background-color: transparent;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .action-button.secondary:hover {
+            background-color: #000;
+            color: white;
+        }
+
+        .map-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            background-color: #e9ecef;
+            height: 450px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 3rem;
+            }
+
+            .page-header p {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                min-width: auto;
+            }
+
+            .stores-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .store-actions {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .store-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="page-header">
+        <h1>Store Locator</h1>
+        <p>Find your nearest ManoySneaks store and visit us today!</p>
+    </div>
+
+    <div class="container">
+
+        <div class="stores-grid">
+            <div class="store-card active-store" id="store-manila"
+                data-map-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.760431388256!2d121.0219656758831!3d14.55577907869387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c91642217c97%3A0x673a5a229048a332!2s123%20Ayala%20Ave%2C%20Makati%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1719118123282!5m2!1sen!2sph">
+                <div class="store-name">ManoySneaks Manila</div>
+                <div class="store-address">
+                    123 Ayala Avenue, Makati City<br>
+                    Metro Manila, Philippines 1226
+                </div>
+                <div class="store-hours">
+                    <h4>Store Hours</h4>
+                    <div class="hours-list">
+                        Mon-Thu: 10:00 AM - 9:00 PM<br>
+                        Extended hours during holidays
+                    </div>
+                </div>
+                <div class="store-contact">
+                    <a href="tel:+63285551234" class="contact-item">📞 (01) 2345-6789</a>
+                    <a href="mailto:manila@manoysneaks.com" class="contact-item">✉️ info@manoysneaks.com</a>
+                </div>
+            </div>
+
+            <div class="store-card" id="store-cebu"
+                data-map-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.322881335999!2d123.91572537582236!3d10.31191096702636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a999126834a037%3A0x8819854f3b392e28!2sSM%20City%20Cebu!5e0!3m2!1sen!2sph!4v1719118155989!5m2!1sen!2sph">
+                <div class="store-name">ManoySneaks Cebu</div>
+                <div class="store-address">
+                    SM City Cebu, North Reclamation Area<br>
+                    Cebu City, Cebu 6000
+                </div>
+                <div class="store-hours">
+                    <h4>Store Hours</h4>
+                    <div class="hours-list">
+                        Daily: 10:00 AM - 9:00 PM<br>
+                        Extended hours during holidays
+                    </div>
+                </div>
+                <div class="store-contact">
+                    <a href="tel:+63325551234" class="contact-item">📞 (012) 345-6789</a>
+                    <a href="mailto:cebu@manoysneaks.com" class="contact-item">✉️ info@manoysneaks.com</a>
+                </div>
+            </div>
+
+            <div class="store-card" id="store-davao"
+                data-map-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.049448937648!2d125.6293379757891!3d7.120023616229566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f969a53114f231%3A0x97a39b3a44d32e02!2sSM%20Lanang%20Premier!5e0!3m2!1sen!2sph!4v1719118182937!5m2!1sen!2sph">
+                <div class="store-name">ManoySneaks Davao</div>
+                <div class="store-address">
+                    SM Lanang Premier, J.P. Laurel Avenue<br>
+                    Davao City, Davao del Sur 8000
+                </div>
+                <div class="store-hours">
+                    <h4>Store Hours</h4>
+                    <div class="hours-list">
+                        Mon-Thu: 10:00 AM - 8:00 PM<br>
+                        Extended hours during holidays
+                    </div>
+                </div>
+                <div class="store-contact">
+                    <a href="tel:+63825551234" class="contact-item">📞 (02) 3456-789</a>
+                    <a href="mailto:davao@manoysneaks.com" class="contact-item">✉️ info@manoysneaks.com</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Our Locations</h2>
+            <div class="map-placeholder">
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.760431388256!2d121.0219656758831!3d14.55577907869387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c91642217c97%3A0x673a5a229048a332!2s123%20Ayala%20Ave%2C%20Makati%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1719118123282!5m2!1sen!2sph"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const storeCards = document.querySelectorAll('.store-card');
+            const mapIframe = document.getElementById('map-iframe');
+
+            storeCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    storeCards.forEach(c => c.classList.remove('active-store'));
+
+                    this.classList.add('active-store');
+
+                    const mapSrc = this.getAttribute('data-map-src');
+
+                    if (mapSrc) {
+                        mapIframe.src = mapSrc;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart - ManoySneaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #000000;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .section-title h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-grow: 1;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-section {
+            flex: 2;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-header h2 {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .item-details p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        .item-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+
+        .update-quantity-form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .update-quantity-form input {
+            width: 55px;
+            padding: 0.4rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .update-quantity-form button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .update-quantity-form button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .remove-item-form button {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item-form button:hover {
+            color: #000;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .cart-summary {
+            flex: 1;
+            align-self: flex-start;
+        }
+
+        .summary-header {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #ddd;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .checkout-btn {
+            background-color: #000;
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .checkout-btn:hover {
+            background-color: #333;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .cart-section,
+            .cart-summary {
+                flex: none;
+                width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-container,
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title h1 {
+                font-size: 2rem;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .item-image {
+                margin: 0 auto;
+            }
+
+            .item-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}" class="active">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section-title">
+        <h1>Your Cart</h1>
+        <p>Review your selected items and proceed to checkout.</p>
+    </section>
+
+    <main class="container">
+        <section class="cart-section card">
+            <div class="cart-header">
+                <h2>My Bag <span id="cart-count"></span></h2>
+            </div>
+            <div class="cart-items">
+                {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="{{ item.image }}" alt="{{ item.name }}">
+                    </div>
+                    <div class="item-details">
+                        <h3>{{ item.name }}</h3>
+                        <p>Size: {{ item.size }}</p>
+                        <p class="item-price">₱{{ "%.2f"|format(item.price) }}</p>
+                    </div>
+                    <div class="item-actions">
+                        <form action="{{ url_for('update_cart', item_index=loop.index0) }}" method="POST"
+                            class="update-quantity-form">
+                            <label for="quantity-{{ loop.index0 }}" class="sr-only">Quantity</label>
+                            <input type="number" name="quantity" id="quantity-{{ loop.index0 }}"
+                                value="{{ item.quantity }}" min="1" required>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="{{ url_for('remove_from_cart', item_index=loop.index0) }}" method="POST"
+                            class="remove-item-form">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="empty-cart-message">Your cart is currently empty.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="cart-summary card" id="cart-summary-section">
+            <h2 class="summary-header">Order Summary</h2>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₱{{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>₱{{ "%.2f"|format(shipping) }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (12%)</span>
+                <span>₱{{ "%.2f"|format(tax) }}</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>₱{{ "%.2f"|format(total_amount) }}</span>
+            </div>
+            <form action="{{ url_for('checkout') }}" method="GET">
+                <button type="submit" class="checkout-btn" {% if not cart_items %}disabled{% endif %}>Proceed to
+                    Checkout</button>
+            </form>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cartItems = document.querySelectorAll('.cart-item');
+            const cartSummarySection = document.getElementById('cart-summary-section');
+            const cartCountElement = document.getElementById('cart-count');
+
+            if (cartItems.length === 0) {
+                if (cartSummarySection) {
+                    cartSummarySection.style.display = 'none';
+                }
+            }
+
+            if (cartCountElement) {
+                cartCountElement.textContent = `(${cartItems.length})`;
+            }
+        });
+    </script>
+</body>
+
+</html>

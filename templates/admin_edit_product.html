@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device--width, initial-scale=1.0">
+
+    <title>Edit Product - ManoySneaks Admin</title>
+    <style>
+        /* General styles copied from admin_dashboard.html and admin_orders.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .hero-admin {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-admin h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .hero-admin p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        .product-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-section h2 {
+            font-size: 2rem;
+            color: #000;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .form-group input[type="file"] {
+            padding-top: 10px;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            transform: scale(1.2);
+            vertical-align: middle;
+        }
+
+        .current-image-preview {
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .current-image-preview img {
+            max-width: 150px;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+        }
+
+
+        .form-actions {
+            text-align: center;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            background-color: #6c757d;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-admin h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-admin p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-container,
+            .container {
+                padding: 0 1rem;
+            }
+
+            .product-section {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .cta-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-admin {
+                padding: 2rem 1rem;
+            }
+
+            .hero-admin h1 {
+                font-size: 2rem;
+            }
+
+            .hero-admin p {
+                font-size: 1rem;
+            }
+
+            .product-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {# Flash messages for success/error notifications #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {# Navigation Bar #}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin Dashboard</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {# Hero Section for Admin Product Editing #}
+    <section class="hero-admin">
+        <h1>Product Management</h1>
+        <p>Edit product details below.</p>
+    </section>
+
+    <div class="container">
+        {# Edit Product Form #}
+        <div class="product-section">
+            <h2>{% if product %}Edit Product: {{ product.name }}{% else %}Add New Product{% endif %}</h2>
+            <form action="{{ url_for('admin_edit_product', product_id=product.id if product else 'new') }}"
+                method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="name">Product Name</label>
+                    <input type="text" id="name" name="name" value="{{ product.name if product else '' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <select id="brand" name="brand">
+                        <option value="">Select Brand</option>
+                        <option value="NIKE" {% if product and product.brand=='NIKE' %}selected{% endif %}>NIKE</option>
+                        <option value="Adidas" {% if product and product.brand=='Adidas' %}selected{% endif %}>Adidas
+                        </option>
+                        <option value="Puma" {% if product and product.brand=='Puma' %}selected{% endif %}>Puma</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price (₱)</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0"
+                        value="{{ '%.2f' | format(product.price) if product else '0.00' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="original_price">Original Price (₱) (Optional, for sale items)</label>
+                    <input type="number" id="original_price" name="original_price" step="0.01" min="0"
+                        value="{{ '%.2f' | format(product.original_price) if product and product.original_price else '' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="product_image">Change Product Image</label>
+                    <input type="file" id="product_image" name="product_image" accept="image/*">
+                    {% if product and product.image_url %}
+                    <div class="current-image-preview">
+                        <p>Current Image:</p>
+                        <img src="{{ product.image_url }}" alt="{{ product.name }} image">
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option value="">Select Category</option>
+                        <option value="sneakers" {% if product and product.category=='sneakers' %}selected{% endif %}>
+                            Sneakers</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="men" {% if product and product.gender=='men' %}selected{% endif %}>Men</option>
+                        <option value="women" {% if product and product.gender=='women' %}selected{% endif %}>Women
+                        </option>
+                        <option value="unisex" {% if product and product.gender=='unisex' %}selected{% endif %}>Unisex
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Product Description</label>
+                    <textarea id="description" name="description"
+                        rows="4">{{ product.description if product else '' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="on_sale" name="on_sale" {% if product and product.on_sale %}checked{%
+                        endif %}>
+                    <label for="on_sale" style="display: inline;">On Sale</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="cta-button">{% if product %}Update Product{% else %}Add Product{% endif
+                        %}</button>
+                    <a href="{{ url_for('admin_products') }}" class="cta-button back-button">Back to Product List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

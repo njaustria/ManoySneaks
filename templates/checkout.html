@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout - Sneaker Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .checkout-header {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            background-color: #ffffff;
+        }
+
+        .checkout-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .checkout-header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            padding: 2rem 0 4rem;
+        }
+
+        .checkout-form {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #000;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background-color: #ffffff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .order-summary {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .order-summary h2 {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #000;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-variant {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-price {
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .order-totals {
+            padding-top: 1.5rem;
+            border-top: 2px solid #000;
+            margin-top: 1.5rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .total-row.final {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+            margin-top: 1rem;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+        }
+
+        .payment-option:hover {
+            border-color: #000;
+        }
+
+        .payment-option.selected {
+            border-color: #000;
+            background-color: #f8f8f8;
+        }
+
+        .payment-option input[type="radio"] {
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-logo {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 1024px) {
+            .checkout-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .checkout-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .checkout-form,
+            .order-summary {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkout-header h1 {
+                font-size: 2rem;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <script id="user-info-data" type="application/json">
+        {{ user_info | tojson | safe if user_info else 'null' }}
+    </script>
+    <script id="location-data" type="application/json">
+        {{ location_data | tojson | safe if location_data else 'null' }}
+    </script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="checkout-header">
+        <h1>Checkout</h1>
+        <p>Complete your order and step up your sneaker game</p>
+    </section>
+
+    <div class="container">
+        <div class="checkout-content">
+            <div class="checkout-form">
+                <form action="{{ url_for('checkout') }}" method="POST">
+                    <div class="form-section">
+                        <h2>Shipping Information</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="province">Province</label>
+                            <input type="text" id="province" name="province" value="Laguna" readonly required
+                                style="background-color: #f0f0f0; cursor: not-allowed;">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <select id="city" name="city" required>
+                                    <option value="" disabled selected>Select a City</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="barangay">Barangay</label>
+                                <select id="barangay" name="barangay" required>
+                                    <option value="" disabled selected>Select a Barangay</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Street Address, Building, House No.</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="landmark">Landmark (Optional)</label>
+                            <input type="text" id="landmark" name="landmark">
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code">Postal Code</label>
+                            <input type="text" id="postal_code" name="postal_code" required>
+                        </div>
+                        {% if session.user_id %}
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="use_default_address" name="use_default_address">
+                            <label for="use_default_address">Use my default address</label>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-section">
+                        <h2>Payment Method</h2>
+                        <div class="payment-methods">
+                            <div class="payment-option selected">
+                                <input type="radio" id="cod" name="payment_method" value="cod" checked>
+                                <div class="payment-logo">COD (Cash on Delivery)</div>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="gcash" name="payment_method" value="gcash">
+                                <div class="payment-logo">GCash</div>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="paypal" name="payment_method" value="paypal">
+                                <div class="payment-logo">PayPal</div>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="bank" name="payment_method" value="bank">
+                                <div class="payment-logo">Credit/Debit Card</div>
+                            </div>
+                        </div>
+
+                        <div id="gcash-form" style="display: none; margin-top: 2rem;">
+                            <h3
+                                style="margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">
+                                GCash Details</h3>
+                            <div class="form-group">
+                                <label for="gcash_name">Account Name</label>
+                                <input type="text" id="gcash_name" name="gcash_name" placeholder="Juan Dela Cruz">
+                            </div>
+                            <div class="form-group">
+                                <label for="gcash_number">Account Number</label>
+                                <input type="text" id="gcash_number" name="gcash_number" placeholder="09123456789"
+                                    maxlength="11">
+                            </div>
+                            <div class="form-group">
+                                <label for="gcash_reference">Reference Number</label>
+                                <input type="text" id="gcash_reference" name="gcash_reference"
+                                    placeholder="Enter your payment reference" maxlength="12">
+                            </div>
+                        </div>
+
+                        <div id="credit-card-form" style="display: none; margin-top: 2rem;">
+                            <h3
+                                style="margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">
+                                Card Details</h3>
+                            <div class="form-group">
+                                <label for="card_name">Name on Card</label>
+                                <input type="text" id="card_name" name="card_name" placeholder="Juan Dela Cruz">
+                            </div>
+                            <div class="form-group">
+                                <label for="card_number">Card Number</label>
+                                <input type="text" id="card_number" name="card_number" placeholder="xxxx xxxx xxxx xxxx"
+                                    maxlength="19">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card_expiry">Expiry Date</label>
+                                    <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card_cvv">CVV</label>
+                                    <input type="text" id="card_cvv" name="card_cvv" placeholder="123" maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cta-button">Complete Order</button>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+
+                <div class="order-items-list">
+                    {% for item in cart_items %}
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="{{ item.image }}" alt="{{ item.name }}">
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">{{ item.name }}</div>
+                            <div class="item-variant">Size: {{ item.size }} | Qty: {{ item.quantity }}</div>
+                            <div class="item-price">₱{{ '%.2f' | format(item.price | float) }}</div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>No items in cart.</p>
+                    {% endfor %}
+                </div>
+
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>₱{{ '%.2f' | format(subtotal | float) }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Shipping:</span>
+                        <span>₱{{ '%.2f' | format(shipping | float) }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Tax:</span>
+                        <span>₱{{ '%.2f' | format(tax | float) }}</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span>₱{{ '%.2f' | format(total_amount | float) }}</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #666;">
+                    By placing this order, you agree to our Terms of Service and Privacy Policy
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userInfoData = document.getElementById('user-info-data');
+            const userInfo = userInfoData ? JSON.parse(userInfoData.textContent) : null;
+
+            const locationDataEl = document.getElementById('location-data');
+            const locationData = locationDataEl ? JSON.parse(locationDataEl.textContent) : null;
+
+            const mainForm = document.querySelector('form[action="{{ url_for('checkout') }}"]');
+            const useDefaultAddressCheckbox = document.getElementById('use_default_address');
+            const citySelect = document.getElementById('city');
+            const barangaySelect = document.getElementById('barangay')
+
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const creditCardForm = document.getElementById('credit-card-form');
+            const creditCardInputs = creditCardForm ? creditCardForm.querySelectorAll('input') : [];
+            const gcashForm = document.getElementById('gcash-form');
+            const gcashInputs = gcashForm ? gcashForm.querySelectorAll('input') : [];
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    const radio = option.querySelector('input[type="radio"]');
+                    radio.checked = true;
+
+                    if (creditCardForm) creditCardForm.style.display = 'none';
+                    creditCardInputs.forEach(input => input.removeAttribute('required'));
+
+                    if (gcashForm) gcashForm.style.display = 'none';
+                    gcashInputs.forEach(input => input.removeAttribute('required'));
+
+                    if (radio.value === 'bank') {
+                        if (creditCardForm) creditCardForm.style.display = 'block';
+                        creditCardInputs.forEach(input => input.setAttribute('required', 'required'));
+                    } else if (radio.value === 'gcash') {
+                        if (gcashForm) gcashForm.style.display = 'block';
+                        gcashInputs.forEach(input => input.setAttribute('required', 'required'));
+                    }
+                });
+            });
+
+            function populateBarangays(selectedCity) {
+                barangaySelect.innerHTML = '<option value="" disabled selected>Select a Barangay</option>';
+                barangaySelect.disabled = true;
+
+                if (selectedCity && locationData && locationData.Laguna && locationData.Laguna[selectedCity]) {
+                    barangaySelect.disabled = false;
+                    const barangays = locationData.Laguna[selectedCity];
+                    barangays.forEach(brgy => {
+                        const option = document.createElement('option');
+                        option.value = brgy;
+                        option.textContent = brgy;
+                        barangaySelect.appendChild(option);
+                    });
+                }
+            }
+
+            if (locationData && locationData.Laguna) {
+                const lagunaCities = locationData.Laguna;
+                for (const city in lagunaCities) {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                }
+            }
+            barangaySelect.disabled = true;
+
+            citySelect.addEventListener('change', function () {
+                populateBarangays(this.value);
+            });
+
+            if (useDefaultAddressCheckbox) {
+                useDefaultAddressCheckbox.addEventListener('change', function () {
+                    const form = this.closest('form');
+                    const firstName = form.querySelector('#first_name');
+                    const lastName = form.querySelector('#last_name');
+                    const email = form.querySelector('#email');
+                    const phone = form.querySelector('#phone');
+                    const address = form.querySelector('#address');
+                    const landmark = form.querySelector('#landmark');
+                    const postalCode = form.querySelector('#postal_code');
+
+                    if (this.checked) {
+                        if (userInfo && userInfo.default_address && userInfo.default_address.address) {
+                            const defaultAddr = userInfo.default_address;
+                            firstName.value = defaultAddr.first_name || '';
+                            lastName.value = defaultAddr.last_name || '';
+                            email.value = defaultAddr.email || '';
+                            phone.value = defaultAddr.phone || '';
+                            address.value = defaultAddr.address || '';
+                            landmark.value = defaultAddr.landmark || '';
+                            postalCode.value = defaultAddr.postal_code || '';
+
+                            const userCity = defaultAddr.city || '';
+                            const userBarangay = defaultAddr.barangay || '';
+
+                            citySelect.value = userCity;
+                            citySelect.dispatchEvent(new Event('change'));
+                            setTimeout(() => {
+                                barangaySelect.value = userBarangay;
+                            }, 100);
+
+                        } else {
+                            this.checked = false;
+                            alert("No default address is saved. Please add one in 'My Account'.");
+                        }
+                    } else {
+                        firstName.value = '';
+                        lastName.value = '';
+                        email.value = '';
+                        phone.value = '';
+                        address.value = '';
+                        landmark.value = '';
+                        postalCode.value = '';
+                        citySelect.value = '';
+                        populateBarangays('');
+                    }
+                });
+            }
+
+            if (mainForm) {
+                mainForm.addEventListener('submit', function (e) {
+                    const requiredFields = this.querySelectorAll('[required]');
+                    let isValid = true;
+                    let firstInvalidField = null;
+
+                    requiredFields.forEach(field => {
+                        field.style.borderColor = '#ddd';
+                        if (!field.value.trim() || (field.tagName === 'SELECT' && field.value === '')) {
+                            isValid = false;
+                            field.style.borderColor = '#e74c3c';
+                            if (!firstInvalidField) firstInvalidField = field;
+                        }
+                    });
+
+                    if (!isValid) {
+                        e.preventDefault();
+                        const firstVisibleInvalid = Array.from(requiredFields).find(f => f.style.borderColor === 'rgb(231, 76, 60)');
+                        alert('Please fill in all required fields, highlighted in red.');
+                        if (firstVisibleInvalid) {
+                            firstVisibleInvalid.focus();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

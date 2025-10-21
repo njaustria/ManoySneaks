@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Manage Reviews</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .hero-admin {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-admin h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .hero-admin p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+        }
+
+        .flash-success {
+            background-color: #28a745;
+        }
+
+        .flash-error {
+            background-color: #dc3545;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .admin-grid {
+                grid-template-columns: 300px 1fr;
+            }
+        }
+
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.75rem;
+        }
+
+        .summary-card .overall-rating {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-card .rating-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .summary-card .rating-stars {
+            font-size: 1.5rem;
+            color: #ffc107;
+            margin: 0.5rem 0;
+        }
+
+        .summary-card .total-reviews {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .rating-breakdown .rating-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-breakdown .star-label {
+            flex-shrink: 0;
+            color: #666;
+        }
+
+        .rating-breakdown .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .rating-breakdown .progress {
+            height: 100%;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        .review-card {
+            position: relative;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .review-sender {
+            font-weight: bold;
+            color: #000;
+            font-size: 1.2rem;
+        }
+
+        .review-date {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .review-stars {
+            font-size: 1.1rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .review-comment {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border: 1px solid #e9e9e9;
+            border-radius: 5px;
+        }
+
+        .review-image {
+            max-width: 150px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid #ddd;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn-form {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .admin-reply-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .admin-reply-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .admin-reply-section .reply-meta {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .reply-form textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 0.75rem;
+        }
+
+        .reply-form button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .reply-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin Dashboard</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-admin">
+        <h1>Review Management</h1>
+        <p>Monitor and moderate customer feedback.</p>
+    </section>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="flash-message flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <h2 class="section-title">Review Dashboard</h2>
+
+        <div class="admin-grid">
+            <aside class="summary-section">
+                <div class="card summary-card">
+                    <h3>Rating Summary</h3>
+                    <div class="overall-rating">
+                        <div id="avg-rating" class="rating-value">{{ "%.1f"|format(average_rating) if average_rating
+                            else "0.0" }}</div>
+                        <div id="summary-stars" class="rating-stars">
+                            {% set avg_rounded = average_rating | round | int %}
+                            {% for i in range(1, 6) %}
+                            {% if i <= avg_rounded %}★{% else %}☆{% endif %} {% endfor %} </div>
+                                <div class="total-reviews"><span id="total-reviews-count">{{ total_reviews }}</span>
+                                    total reviews</div>
+                        </div>
+                        <div class="rating-breakdown">
+                            <div class="rating-row">
+                                <span class="star-label">5 ★</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: {{ rating_percentages.get(5, 0) }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="star-label">4 ★</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: {{ rating_percentages.get(4, 0) }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="star-label">3 ★</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: {{ rating_percentages.get(3, 0) }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="star-label">2 ★</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: {{ rating_percentages.get(2, 0) }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="star-label">1 ★</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: {{ rating_percentages.get(1, 0) }}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </aside>
+
+            <main class="reviews-list">
+                {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-card">
+                    <form action="{{ url_for('admin_delete_review', review_id=review.id) }}" method="post"
+                        class="delete-btn-form"
+                        onsubmit="return confirm('Are you sure you want to delete this review? This action cannot be undone.');">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                    <div class="review-header">
+                        <div>
+                            <span class="review-sender">{{ review.user_name }}</span>
+                        </div>
+                        <span class="review-date">{{ review.created_at.split('T')[0] }}</span>
+                    </div>
+                    <div class="review-stars">
+                        {% for i in range(1, 6) %}
+                        {% if i <= review.rating %}★{% else %}☆{% endif %} {% endfor %} </div>
+                            <p class="review-comment">{{ review.comment }}</p>
+                            {% if review.image_url %}
+                            <a href="{{ review.image_url }}" target="_blank">
+                                <img src="{{ review.image_url }}"
+                                    alt="User uploaded image for review by {{ review.user_name }}" class="review-image"
+                                    onerror="this.style.display='none'">
+                            </a>
+                            {% endif %}
+
+                            <div class="admin-reply-section">
+                                <h4>Admin Reply</h4>
+                                {% if review.reply_message %}
+                                <p class="review-comment" style="background-color: #f0f8ff; margin-bottom: 0.5rem;">{{
+                                    review.reply_message }}</p>
+                                <p class="reply-meta">Last updated: {{ review.replied_at.split('T')[0] }}</p>
+                                {% endif %}
+
+                                <form action="{{ url_for('admin_reply_review', review_id=review.id) }}" method="post"
+                                    class="reply-form">
+                                    <textarea name="reply_message"
+                                        placeholder="{% if review.reply_message %}Edit your reply...{% else %}Write a public reply...{% endif %}">{{ review.reply_message or '' }}</textarea>
+                                    <button type="submit">{% if review.reply_message %}Update Reply{% else %}Submit
+                                        Reply{% endif %}</button>
+                                </form>
+                            </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="card">
+                        <p>No reviews have been submitted yet. Once a user leaves a review, it will appear here.</p>
+                    </div>
+                    {% endif %}
+            </main>
+        </div>
+    </div>
+
+</body>
+
+</html>

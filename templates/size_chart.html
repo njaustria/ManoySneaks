@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Size Chart - ManoySneaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: #000;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .note {
+            font-size: 1.1rem;
+            color: #856404;
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .note strong {
+            color: #000;
+        }
+
+        .size-chart-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .size-chart-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .size-chart-section h2 {
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #000;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #e74c3c;
+            border: 1px solid #c0392b;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-header {
+                padding: 2rem 1rem 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th,
+            td {
+                padding: 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .size-chart-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Sneaker Size Chart</h1>
+            <div class="note">
+                <strong>Note:</strong> Sizes may vary slightly between different brands and styles. We recommend trying
+                on shoes whenever possible or checking the specific brand's size guide for the most accurate fit.
+            </div>
+        </div>
+
+        <div class="size-chart-section">
+            <h2>Women's Size Chart</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>US Size</th>
+                        <th>EU Size</th>
+                        <th>UK Size</th>
+                        <th>Foot Length (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5</td>
+                        <td>35.5</td>
+                        <td>2.5</td>
+                        <td>22.0</td>
+                    </tr>
+                    <tr>
+                        <td>5.5</td>
+                        <td>36</td>
+                        <td>3</td>
+                        <td>22.5</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>36.5</td>
+                        <td>3.5</td>
+                        <td>23.0</td>
+                    </tr>
+                    <tr>
+                        <td>6.5</td>
+                        <td>37.5</td>
+                        <td>4</td>
+                        <td>23.5</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>38</td>
+                        <td>4.5</td>
+                        <td>24.0</td>
+                    </tr>
+                    <tr>
+                        <td>7.5</td>
+                        <td>38.5</td>
+                        <td>5</td>
+                        <td>24.5</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>39</td>
+                        <td>5.5</td>
+                        <td>25.0</td>
+                    </tr>
+                    <tr>
+                        <td>8.5</td>
+                        <td>40</td>
+                        <td>6</td>
+                        <td>25.5</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>40.5</td>
+                        <td>6.5</td>
+                        <td>26.0</td>
+                    </tr>
+                    <tr>
+                        <td>9.5</td>
+                        <td>41</td>
+                        <td>7</td>
+                        <td>26.5</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>42</td>
+                        <td>7.5</td>
+                        <td>27.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="size-chart-section">
+            <h2>Men's Size Chart</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>US Size</th>
+                        <th>EU Size</th>
+                        <th>UK Size</th>
+                        <th>Foot Length (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>7</td>
+                        <td>40</td>
+                        <td>6</td>
+                        <td>25.0</td>
+                    </tr>
+                    <tr>
+                        <td>7.5</td>
+                        <td>40.5</td>
+                        <td>6.5</td>
+                        <td>25.5</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>41</td>
+                        <td>7</td>
+                        <td>26.0</td>
+                    </tr>
+                    <tr>
+                        <td>8.5</td>
+                        <td>42</td>
+                        <td>7.5</td>
+                        <td>26.5</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>42.5</td>
+                        <td>8</td>
+                        <td>27.0</td>
+                    </tr>
+                    <tr>
+                        <td>9.5</td>
+                        <td>43</td>
+                        <td>8.5</td>
+                        <td>27.5</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>44</td>
+                        <td>9</td>
+                        <td>28.0</td>
+                    </tr>
+                    <tr>
+                        <td>10.5</td>
+                        <td>44.5</td>
+                        <td>9.5</td>
+                        <td>28.5</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>45</td>
+                        <td>10</td>
+                        <td>29.0</td>
+                    </tr>
+                    <tr>
+                        <td>11.5</td>
+                        <td>45.5</td>
+                        <td>10.5</td>
+                        <td>29.5</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>46</td>
+                        <td>11</td>
+                        <td>30.0</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>47.5</td>
+                        <td>12</td>
+                        <td>31.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

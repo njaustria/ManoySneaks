@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Return & Exchange Policy - ManoySneaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .policy-header {
+            text-align: center;
+            padding: 3rem 2rem 1rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 3rem;
+        }
+
+        .policy-header h1 {
+            font-size: 5rem;
+            color: #000;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .policy-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-card h2 {
+            color: #000;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .content-card h3 {
+            color: #000;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .content-card h4 {
+            color: #333;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .content-card p,
+        .content-card li {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .content-card ul,
+        .content-card ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card li strong {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .content-card a {
+            color: #e74c3c;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .content-card a:hover {
+            color: #000;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #000;
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            margin-top: 1rem;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .policy-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .policy-header {
+                padding: 2rem 1rem 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .policy-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="policy-header">
+        <h1>Return & Exchange Policy</h1>
+        <p>Your satisfaction is our priority. Here’s how we handle returns and exchanges to ensure a smooth and fair
+            process.</p>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <h3>Returns & Exchanges</h3>
+            <p>You have <strong>14 days</strong> from the date of delivery to initiate a return for a full refund or an
+                exchange, subject to availability.</p>
+
+            <h4>Eligibility for Return/Exchange:</h4>
+            <ul>
+                <li>Item(s) must be in <strong>unworn, brand-new condition</strong>. Trying on shoes indoors on a clean
+                    surface is acceptable, but any signs of wear (scuffs, dirt, creases) will result in the request
+                    being denied.</li>
+                <li>All original packaging must be included and in pristine condition. This includes the sneaker box,
+                    tissue paper, extra laces, and any other included accessories.</li>
+                <li>The original sneaker box must be shipped inside a separate shipping box. Please do not apply tape or
+                    shipping labels directly to the sneaker box.</li>
+                <li>Proof of purchase (order number or receipt) is required.</li>
+            </ul>
+
+            <h4>How to Exchange:</h4>
+            <ol>
+                <li>Contact our support team at <a href="mailto:support@manoysneaks.com">support@manoysneaks.com</a>
+                    with your order number and the desired size/color.</li>
+                <li>We will confirm if the requested item is in stock and provide you with instructions.</li>
+                <li>The same eligibility conditions for returns apply to exchanges.</li>
+            </ol>
+        </div>
+
+        <div class="content-card">
+            <h3>Exceptions & Special Cases</h3>
+            <p>Certain items are considered final sale and cannot be returned or exchanged. Please shop carefully.</p>
+
+            <h4>Final Sale & Non-Returnable Items:</h4>
+            <ul>
+                <li>Items marked as "Final Sale" or on clearance.</li>
+                <li>Limited edition releases, special collaborations, and "hype" drops. This will be clearly stated on
+                    the product page.</li>
+                <li>Any sneakers that show signs of wear or are not in their original, resalable condition.</li>
+                <li>Gift cards.</li>
+            </ul>
+
+            <h4>Damaged or Incorrect Items:</h4>
+            <p>If you receive a damaged product or the wrong item, please contact us within <strong>48 hours</strong> of
+                delivery. We will work quickly to resolve the issue at no cost to you. Please include photos of the
+                issue in your email to help us expedite the process.</p>
+        </div>
+
+        <div class="content-card">
+            <h3>Shipping Costs & Refund Processing</h3>
+            <p>Customers are responsible for the shipping costs for returning or exchanging items. Original shipping
+                fees are non-refundable. If we made an error (sent a damaged or incorrect item), we will cover the
+                return shipping costs.</p>
+
+            <h4>Refund Processing:</h4>
+            <p>Once your return is received and inspected, we will send you an email to notify you of the approval or
+                rejection of your refund. If approved, your refund will be processed, and a credit will automatically be
+                applied to your original method of payment within 5-7 business days.</p>
+        </div>
+
+        <a href="{{ url_for('contact') }}" class="back-button">← Back to Contact Us</a>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

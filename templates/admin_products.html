@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management - ManoySneaks Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .hero-admin {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-admin h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .hero-admin p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-container {
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .form-group label[for="on_sale"] {
+            display: inline-block;
+            font-weight: normal;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .products-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .products-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .products-table img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .products-table .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .products-table .action-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .products-table .edit-btn {
+            background-color: #007bff;
+        }
+
+        .products-table .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .products-table .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .products-table .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero-admin h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-admin p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-container,
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-table th {
+                display: none;
+            }
+
+            .products-table td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            .products-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {# Flash messages for success/error notifications #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {# Navigation Bar #}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin Dashboard</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {# Hero Section for Admin Products #}
+    <section class="hero-admin">
+        <h1>Product Management</h1>
+        <p>Add, edit, and delete products in your store.</p>
+    </section>
+
+    <div class="container">
+        {# Add New Product Section #}
+        <div class="form-container">
+            <h2 class="section-title">Add New Product</h2>
+            <form action="{{ url_for('admin_products') }}" method="POST" enctype="multipart/form-data"
+                id="addProductForm">
+                <div class="form-group">
+                    <label for="name">Product Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <select id="brand" name="brand" required>
+                        {% for b in brands %}
+                        <option value="{{ b }}">{{ b }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price (₱):</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="original_price">Original Price (₱) (Optional, for sale items):</label>
+                    <input type="number" id="original_price" name="original_price" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="product_image">Product Image:</label>
+                    <input type="file" id="product_image" name="product_image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        {% for cat in categories %}
+                        {% if cat != 'clothing' %}
+                        <option value="{{ cat }}">{{ cat | capitalize }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="men">Men</option>
+                        <option value="women">Women</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Product Description:</label>
+                    <textarea id="description" name="description" rows="4"
+                        placeholder="Enter a detailed description for the product..."></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="on_sale" name="on_sale">
+                    <label for="on_sale">On Sale</label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="cta-button">Add Product</button>
+                </div>
+            </form>
+        </div>
+
+        {# Product List Table #}
+        <div class="table-container">
+            <h2 class="section-title">Existing Products</h2>
+            {% if products %}
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Gender</th>
+                        <th>Sale</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td data-label="Image">
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        </td>
+                        <td data-label="Name">{{ product.name }}</td>
+                        <td data-label="Brand">{{ product.brand }}</td>
+                        <td data-label="Price">₱{{ "%.2f" | format(product.price) }}
+                            {% if product.original_price %}
+                            <br><s style="color: #888; font-size: 0.9em;">₱{{ "%.2f" | format(product.original_price)
+                                }}</s>
+                            {% endif %}
+                        </td>
+                        <td data-label="Category">{{ product.category | capitalize }}</td>
+                        <td data-label="Gender">{{ product.gender | capitalize }}</td>
+                        <td data-label="Sale">
+                            {% if product.on_sale %}
+                            Yes
+                            {% else %}
+                            No
+                            {% endif %}
+                        </td>
+                        <td data-label="Actions" class="action-buttons">
+                            <a href="{{ url_for('admin_edit_product', product_id=product.id) }}"
+                                class="action-button edit-btn">Edit</a>
+                            <form action="{{ url_for('admin_delete_product', product_id=product.id) }}" method="POST"
+                                style="display:inline;">
+                                <button type="submit" class="action-button delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete {{ product.name }}?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #666; margin-top:2rem;">No products found. Add some above!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const sizes = {
+            men: ["8", "8.5", "9", "9.5", "10", "10.5", "11", "12", "13"],
+            women: ["5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"]
+        };
+
+        function populateSizes() {
+            const genderSelect = document.getElementById('gender');
+            const selectedGender = genderSelect.value;
+            const sizesContainer = document.getElementById('sizesContainer');
+            if (!sizesContainer) return;
+            sizesContainer.innerHTML = '';
+
+            addSizeInput();
+        }
+
+        function addSizeInput(initialSize = '', initialQuantity = '') {
+            const sizesContainer = document.getElementById('sizesContainer');
+            if (!sizesContainer) return;
+            const genderSelect = document.getElementById('gender');
+            const selectedGender = genderSelect.value;
+            const availableSizes = sizes[selectedGender];
+
+            const sizeInputGroup = document.createElement('div');
+            sizeInputGroup.classList.add('size-input-group');
+
+            const sizeSelect = document.createElement('select');
+            sizeSelect.classList.add('size-select');
+            sizeSelect.setAttribute('required', 'required');
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select Size";
+            sizeSelect.appendChild(defaultOption);
+
+            availableSizes.forEach(size => {
+                const option = document.createElement('option');
+                option.value = size;
+                option.textContent = size;
+                if (initialSize === size) {
+                    option.selected = true;
+                }
+                sizeSelect.appendChild(option);
+            });
+
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.min = '0';
+            quantityInput.placeholder = 'Quantity';
+            quantityInput.value = initialQuantity;
+            quantityInput.classList.add('quantity-input');
+            quantityInput.setAttribute('required', 'required');
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function () {
+                sizesContainer.removeChild(sizeInputGroup);
+            };
+
+            sizeInputGroup.appendChild(sizeSelect);
+            sizeInputGroup.appendChild(quantityInput);
+            sizeInputGroup.appendChild(removeButton);
+
+            sizesContainer.appendChild(sizeInputGroup);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const addProductForm = document.getElementById('addProductForm');
+            if (addProductForm) {
+                addProductForm.addEventListener('submit', function (event) {
+                    const sizesQuantities = [];
+                    const sizesContainer = document.getElementById('sizesContainer');
+                    if (!sizesContainer) return;
+
+                    const sizeInputGroups = sizesContainer.querySelectorAll('.size-input-group');
+
+                    sizeInputGroups.forEach(group => {
+                        const size = group.querySelector('.size-select').value;
+                        const quantity = group.querySelector('.quantity-input').value;
+                        if (size && quantity) {
+                            sizesQuantities.push({ size: size, quantity: parseInt(quantity) });
+                        }
+                    });
+
+                    const hiddenInput = document.getElementById('sizes_quantities');
+                    if (hiddenInput) {
+                        hiddenInput.value = JSON.stringify(sizesQuantities);
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>

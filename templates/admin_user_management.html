@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Management - ManoySneaks Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .hero-admin {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-admin h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .hero-admin p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .show-password-label {
+            display: inline-flex;
+            align-items: center;
+            font-weight: normal;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            padding: 0 2rem;
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-table th,
+        .user-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .user-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .user-table .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .user-table .action-buttons form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .user-table .action-buttons button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-table .action-buttons .edit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .user-table .action-buttons .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .user-table .action-buttons .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .user-table .action-buttons .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero-admin h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-admin p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-container,
+            .container {
+                padding: 0 1rem;
+            }
+
+            .form-container,
+            .table-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin Dashboard</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-admin">
+        <h1>User Management</h1>
+        <p>Manage registered user accounts and administrator privileges.</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Registered Users</h2>
+
+        <div class="table-container">
+            {% if users %}
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Admin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email or 'N/A' }}</td>
+                        <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+                        <td class="action-buttons">
+                            <form action="{{ url_for('admin_user_management') }}" method="POST">
+                                <div>
+                                    <input type="hidden" name="action" value="edit_password">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <input type="password" name="new_password" id="new_password_{{ user.id }}"
+                                        placeholder="New Password" required>
+                                    <label class="show-password-label">
+                                        <input type="checkbox"
+                                            onchange="togglePasswordVisibility('new_password_{{ user.id }}', this)">
+                                        Show Password
+                                    </label>
+                                </div>
+                                <button type="submit" class="cta-button edit-btn">Update Password</button>
+                            </form>
+                            {% if user.id != session.user_id %}
+                            <form action="{{ url_for('admin_user_management') }}" method="POST"
+                                style="margin-left: auto;">
+                                <input type="hidden" name="action" value="delete_user">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <button type="submit" class="cta-button delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete user {{ user.username }}?');">Delete</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; margin-top: 2rem;">No users registered yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility(fieldIds, checkbox) {
+            const ids = Array.isArray(fieldIds) ? fieldIds : [fieldIds];
+            ids.forEach(id => {
+                const passwordField = document.getElementById(id);
+                if (passwordField) {
+                    passwordField.type = checkbox.checked ? 'text' : 'password';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

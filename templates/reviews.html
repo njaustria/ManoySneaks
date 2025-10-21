@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Reviews - ManoySneaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .contact-header h1 {
+            font-size: 5rem;
+            color: #000;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .contact-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 1024px) {
+            .reviews-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        h2 {
+            color: #000;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .review-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .review-header h3 {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .review-header span {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .review-card p {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .review-stars {
+            font-size: 1.2rem;
+            color: #ffc107;
+        }
+
+        .review-stars .star-empty {
+            color: #ccc;
+        }
+
+        .review-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-top: 1rem;
+        }
+
+        .admin-reply {
+            background-color: #f8f9fa;
+            border-left: 4px solid #000;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .admin-reply h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-reply p {
+            color: #555;
+            font-style: italic;
+            margin-top: 0;
+        }
+
+        .form-sticky {
+            position: sticky;
+            top: 6rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background-color: #ffffff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        .star-rating-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .star-rating-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .star-input {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 0.2rem;
+        }
+
+        .star-input input[type="radio"] {
+            display: none;
+        }
+
+        .star-input label {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .star-input label:hover,
+        .star-input label:hover~label,
+        .star-input input[type="radio"]:checked~label {
+            color: #ffc107;
+        }
+
+        .custom-file-upload {
+            border: 2px dashed #ccc;
+            display: block;
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #f1f1f1;
+            border-color: #999;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .submit-btn {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #e74c3c;
+            border: 1px solid #c0392b;
+        }
+
+        .login-prompt {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .login-prompt h2 {
+            margin-bottom: 1rem;
+        }
+
+        .login-prompt p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .login-prompt a {
+            color: #e74c3c;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-header {
+                padding: 2rem 1rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-direction: column;
+                display: none;
+            }
+
+            .nav-container,
+            .container {
+                padding: 0 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                margin: 0 auto;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <header class="contact-header">
+            <h1>Customer Reviews & Feedbacks</h1>
+            <p>See what our community is saying about their latest cops.</p>
+        </header>
+
+        <div class="container">
+            <div class="reviews-grid">
+                <section>
+                    <h2>Latest Reviews</h2>
+                    <div id="reviews-container">
+                        {% if reviews %}
+                        {% for review in reviews %}
+                        <div class="card review-card">
+                            <div class="review-header">
+                                <h3>{{ review.user_name }}</h3>
+                                <span>{{ review.created_at.split('T')[0] }}</span>
+                            </div>
+                            <div class="review-stars">
+                                {% for i in range(1, 6) %}
+                                {% if i <= review.rating %} <span class="star-filled">★</span>
+                                    {% else %}
+                                    <span class="star-empty">☆</span>
+                                    {% endif %}
+                                    {% endfor %}
+                            </div>
+                            <p>{{ review.comment }}</p>
+
+                            {% if review.image_url %}
+                            <div class="review-image-wrapper">
+                                <img src="{{ review.image_url }}" onerror="this.style.display='none'"
+                                    alt="User uploaded sneaker photo">
+                            </div>
+                            {% endif %}
+
+                            {% if review.reply_message %}
+                            <div class="admin-reply">
+                                <h4>Reply from ManoySneaks</h4>
+                                <p>{{ review.reply_message }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>No reviews yet. Be the first to leave one!</p>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <aside>
+                    {% if session.user_id %}
+                    <div class="card form-sticky">
+                        <h2>Leave a Review</h2>
+                        <form id="review-form" action="{{ url_for('reviews') }}" method="post"
+                            enctype="multipart/form-data" novalidate>
+                            <div class="star-rating-group">
+                                <label for="rating">Your Rating</label>
+                                <div class="star-input">
+                                    <input type="radio" id="star5" name="rating" value="5" required /><label
+                                        for="star5">★</label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label
+                                        for="star4">★</label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label
+                                        for="star3">★</label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label
+                                        for="star2">★</label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label
+                                        for="star1">★</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-comment">Your Comment</label>
+                                <textarea id="user-comment" name="user-comment" placeholder="Tell us what you think..."
+                                    required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-image-upload">Upload a Picture (Optional)</label>
+                                <label for="user-image-upload" class="custom-file-upload">
+                                    <span>Click to upload</span>
+                                </label>
+                                <input type="file" id="user-image-upload" name="user-image" accept="image/*"
+                                    style="display:none;">
+                                <div id="image-preview" style="text-align: center;"></div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="submit-btn">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="card form-sticky login-prompt">
+                        <h2>Join the Conversation</h2>
+                        <p>
+                            You must be logged in to leave a review. Please <a href="{{ url_for('login') }}">log in</a>
+                            or <a href="{{ url_for('register') }}">register</a> to share your feedback with the
+                            community.
+                        </p>
+                        <a href="{{ url_for('login') }}" class="submit-btn"
+                            style="text-align: center; text-decoration: none; display: block;">
+                            Login to Review
+                        </a>
+                    </div>
+                    {% endif %}
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('user-image-upload').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const imagePreviewContainer = document.getElementById('image-preview');
+            if (file) {
+                const reader = new FileReader();
+                imagePreviewContainer.innerHTML = '';
+
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Image preview';
+                    img.classList.add('preview-image');
+                    imagePreviewContainer.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+
+</html>

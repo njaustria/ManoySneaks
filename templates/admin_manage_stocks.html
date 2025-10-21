@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stock Management - ManoySneaks Admin</title>
+    <style>
+        /* General styles copied from admin_products.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .hero-admin {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-admin h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .hero-admin p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .flash-messages {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+        }
+
+        .flash-success {
+            background-color: #000;
+            border: 1px solid #333;
+        }
+
+        .flash-error {
+            background-color: #666;
+            border: 1px solid #999;
+        }
+
+        .stock-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .stock-section h2 {
+            font-size: 2rem;
+            color: #000;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .form-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-actions .cta-button {
+            flex: 1;
+            margin: 0;
+            text-align: center;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin: 0 0.5rem;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .stock-table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .stock-table th,
+        .stock-table td {
+            border: 1px solid #eee;
+            padding: 0.8rem;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .stock-table th {
+            background-color: #f8f8f8;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .stock-table tbody tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        .stock-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .stock-table img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .stock-table .actions-column {
+            white-space: nowrap;
+        }
+
+        .stock-table .action-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .stock-table .update-button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .stock-table .update-button:hover {
+            background-color: #218838;
+        }
+
+        .stock-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stock-status.low {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .stock-status.out {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stock-status.good {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .filter-section {
+            background-color: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .quick-update-form {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-update-form input {
+            width: 80px;
+            padding: 0.4rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .quick-update-form button {
+            padding: 0.4rem 0.8rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .quick-update-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .price-display {
+            font-weight: 600;
+            color: #000;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.9em;
+            margin-left: 0.5rem;
+        }
+
+        .sale-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .size-based-stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .size-based-stock-table th,
+        .size-based-stock-table td {
+            border: 1px solid #eee;
+            padding: 0.6rem;
+            text-align: center;
+        }
+
+        .size-based-stock-table th {
+            background-color: #f2f2f2;
+        }
+
+        .two-table-layout {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .two-table-layout>.stock-section {
+            margin-bottom: 0;
+        }
+
+        #stock-statistics-section {
+            flex: 1 1 320px;
+        }
+
+        #stock-overview-section {
+            flex: 3 1 60%;
+        }
+
+        @media (max-width: 1200px) {
+            .two-table-layout {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-admin h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-admin p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .stock-section {
+                padding: 1.5rem;
+            }
+
+            .stock-table th,
+            .stock-table td {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .stock-table img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-admin {
+                padding: 2rem 1rem;
+            }
+
+            .hero-admin h1 {
+                font-size: 2rem;
+            }
+
+            .stock-section {
+                padding: 1rem;
+            }
+
+            .stock-table td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            .stock-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            .stock-table th {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {# Flash messages for success/error notifications #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {# Navigation Bar #}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin Dashboard</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {# Hero Section for Stock Management #}
+    <section class="hero-admin">
+        <h1>Stock Management</h1>
+        <p>Monitor and update product inventory levels for all products added through Product Management.</p>
+    </section>
+
+    <div class="container two-table-layout">
+
+        {# Stock Statistics Section (Left Table) #}
+        <div class="stock-section" id="stock-statistics-section">
+            <h2>Stock Statistics</h2>
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div style="text-align: center;">
+                        <h3 style="color: #000; margin-bottom: 0.5rem;">Total Products</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: #333;">{{ total_products or 0 }}</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: #dc3545; margin-bottom: 0.5rem;">Out of Stock</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: #dc3545;">{{ out_of_stock_count or 0 }}</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: #007bff; margin-bottom: 0.5rem;">Sold Items</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: #007bff;">{{ sold_items_count or 0 }}</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">Total Items in Stock</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: #28a745;">{{ total_stock_value or 0 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Stock Overview Section (Right Table) #}
+        <div class="stock-section" id="stock-overview-section">
+            <h2>Stock Overview</h2>
+            <div class="stock-table-container">
+                {% if products %}
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th>Gender</th>
+                            <th>Price</th>
+                            <th>Size-Based Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td data-label="Image">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </td>
+                            <td data-label="Product">
+                                {{ product.name }}
+                                {% if product.on_sale %}
+                                <span class="sale-badge">SALE</span>
+                                {% endif %}
+                            </td>
+                            <td data-label="Brand">{{ product.brand }}</td>
+                            <td data-label="Category">{{ product.category | capitalize }}</td>
+                            <td data-label="Gender">{{ product.gender | capitalize }}</td>
+                            <td data-label="Price">
+                                <span class="price-display">₱{{ "%.2f" | format(product.price) }}</span>
+                                {% if product.original_price %}
+                                <span class="original-price">₱{{ "%.2f" | format(product.original_price) }}</span>
+                                {% endif %}
+                            </td>
+                            <td data-label="Size-Based Stock">
+                                <table class="size-based-stock-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Size</th>
+                                            <th>Stock</th>
+                                            <th>Status</th>
+                                            <th>Quick Update</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for size, quantity in product.sizes.items() %}
+                                        <tr>
+                                            <td>{{ size }}</td>
+                                            <td>{{ quantity }}</td>
+                                            <td>
+                                                {% if quantity == 0 %}
+                                                <span class="stock-status out">Out</span>
+                                                {% elif quantity <= 10 %} <span class="stock-status low">Low</span>
+                                                    {% else %}
+                                                    <span class="stock-status good">Good</span>
+                                                    {% endif %}
+                                            </td>
+                                            <td>
+                                                <form class="quick-update-form"
+                                                    action="{{ url_for('quick_update_stock', product_id=product.id, size=size) }}"
+                                                    method="POST">
+                                                    <input type="number" name="new_quantity" value="{{ quantity }}"
+                                                        min="0" required>
+                                                    <button type="submit">Update</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p style="text-align: center; color: #666;">
+                    No products found.
+                    {% if not products %}
+                    <br><br>
+                    <a href="{{ url_for('admin_products') }}" class="cta-button">Add Products First</a>
+                    {% endif %}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

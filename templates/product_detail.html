@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - ManoySneaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        main.container {
+            flex: 1;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .product-image-gallery {
+            width: 100%;
+        }
+
+        .main-image-container {
+            width: 100%;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-image-container img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-brand {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 2.2rem;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sale-price {
+            color: red;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 1.3rem;
+        }
+
+        .product-style-info {
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        .size-selection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .size-selection-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .size-guide-link {
+            font-size: 0.9rem;
+            color: #555;
+            text-decoration: none;
+            border-bottom: 1px solid #999;
+        }
+
+        .size-guide-link:hover {
+            color: #000;
+            border-bottom-color: #000;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .size-button {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .size-button:hover:not(:disabled) {
+            border-color: #000;
+        }
+
+        .size-button.active {
+            background-color: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .size-button:disabled {
+            background-color: #f8f9fa;
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #333;
+        }
+
+        .add-to-cart-btn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 4rem;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-form button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-name {
+                font-size: 1.8rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">ManoySneaks</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('my_account') }}">My Account</a></li>
+                {% if session.is_admin %}
+                <li><a href="{{ url_for('admin_dashboard') }}" style="color: #e74c3c;">Admin</a></li>
+                {% endif %}
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="product-detail-grid">
+            <div class="product-image-gallery">
+                <div class="main-image-container">
+                    <img src="{{ url_for('static', filename=product.image_url.replace('img/', '')) if 'img/' in product.image_url else product.image_url }}"
+                        alt="{{ product.name }}">
+                </div>
+            </div>
+            <div class="product-info">
+                <h2 class="product-brand">{{ product.brand }}</h2>
+                <h1 class="product-name">{{ product.name }}</h1>
+
+                <div class="product-price">
+                    {% if product.sale_price %}
+                    <span class="sale-price">₱{{ "%.2f"|format(product.sale_price) }}</span>
+                    <span class="original-price">₱{{ "%.2f"|format(product.price) }}</span>
+                    {% else %}
+                    <span>₱{{ "%.2f"|format(product.price) }}</span>
+                    {% endif %}
+                </div>
+                <p class="product-style-info">
+                    WHITE/COURT PURPLE-WHITE
+                </p>
+
+                <form id="addToCartForm" method="POST" action="{{ url_for('add_to_cart') }}">
+                    <input type="hidden" name="item_name" value="{{ product.name }}">
+                    <input type="hidden" name="item_price"
+                        value="{{ product.sale_price if product.sale_price else product.price }}">
+                    <input type="hidden" name="item_image" value="{{ product.image_url }}">
+                    <input type="hidden" name="item_gender" value="{{ product.gender }}">
+                    <input type="hidden" id="selectedSize" name="item_size" value="">
+                    <input type="hidden" name="item_quantity" value="1">
+
+                    <div class="size-selection-header">
+                        <h3>Choose a Size:</h3>
+                        <a href="{{ url_for('size_chart') }}" class="size-guide-link">Size Guide</a>
+                    </div>
+
+                    <div class="size-grid" id="sizeGrid">
+                        {% for size in available_sizes %}
+                        {% set stock_quantity = product.sizes.get(size, 0) %}
+                        <button type="button" class="size-button" data-size="{{ size }}" {% if stock_quantity <=0
+                            %}disabled{% endif %}>
+                            {{ size }}
+                        </button>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="add-to-cart-btn" id="addToCartBtn" disabled>ADD TO CART</button>
+                </form>
+
+                <p class="product-description">
+                    {{ product.description | safe }}
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('about') }}">ABOUT US</a></li>
+                    <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                    <li><a href="{{ url_for('store_locator') }}">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('size_chart') }}">SIZE CHART</a></li>
+                    <li><a href="{{ url_for('track_order') }}">TRACK YOUR ORDER</a></li>
+                    <li><a href="{{ url_for('reviews') }}">REVIEWS & FEEDBACK</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Subscribe to our newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="name@domain.com">
+                    <button type="submit">Enter →</button>
+                </form>
+            </div>
+            <div class="footer-section social">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">f</a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="social-icon">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sizeGrid = document.getElementById('sizeGrid');
+            const selectedSizeInput = document.getElementById('selectedSize');
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            const addToCartForm = document.getElementById('addToCartForm');
+
+            let activeSizeButton = null;
+
+            sizeGrid.addEventListener('click', function (event) {
+                const target = event.target;
+                if (target.classList.contains('size-button') && !target.disabled) {
+                    if (activeSizeButton) {
+                        activeSizeButton.classList.remove('active');
+                    }
+
+                    target.classList.add('active');
+                    activeSizeButton = target;
+
+                    selectedSizeInput.value = target.dataset.size;
+                    addToCartBtn.disabled = false;
+                }
+            });
+
+            addToCartForm.addEventListener('submit', function (event) {
+                {% if not session.user_id %}
+                event.preventDefault();
+                alert('Please log in to add items to your cart.');
+                window.location.href = "{{ url_for('login') }}";
+                {% else %}
+                if (!selectedSizeInput.value) {
+                    event.preventDefault();
+                    alert('Please select a size before adding to cart.');
+                }
+                {% endif %}
+            });
+        });
+    </script>
+</body>
+
+</html>
